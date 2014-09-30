@@ -9,9 +9,9 @@
   },
 
   "dependencies": {
-    "express": "4.5.1",
-    "body-parser": "1.8.1",
-    "mongojs": "0.14.0",
+    "express": "4.9.x",
+    "body-parser": "1.8.x",
+    "mongojs": "0.14.x",
     "underscore": "1.6.x"
   },
   "devDependencies": {},
