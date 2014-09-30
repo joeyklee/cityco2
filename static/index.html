@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8 />
+		<title>CO2 Explorer</title>
+				<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+				<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js'></script>
+				<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css' rel='stylesheet' />        
+				<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+		        <script src="http://d3js.org/d3.v3.min.js"></script>
+		        <script type="text/javascript" src = "js/bower_components/datepair.js/dist/datepair.js"></script>
+		        <script type="text/javascript" src = "js/bower_components/datepair.js/dist/jquery.datepair.js"></script>
+		        <script type="text/javascript" src = "js/bower_components/jquery-timepicker-jt/lib/bootstrap-datepicker.js"></script>
+		        
+		        <script type="text/javascript" src="js/app.js"></script>
+		        <script type="text/javascript" src = "js/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+		        
+		       <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+			   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+			   <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+		        
+
+		        <link type="text/css" rel="stylesheet" href="style/style.css">
+		        <link type="text/css" rel="stylesheet" href="style/sidebar-collapse.css">
+		        <!-- <link type="text/css" rel="stylesheet" href="style/test.css"> -->
+
+		        
+
+	</head>
+	<body>
+		<div id='map'></div>
+
+
+		<nav class='sidebar sidebar-menu-collapsed'> <a href='#' id='justify-icon'>
+	        <span class='glyphicon glyphicon-align-justify'></span>
+		    </a>
+		        <ul class='level1'>
+		            <li class = "active"> 
+		            	<a class='expandable' href='#' title='Layerselector'>
+				            <span class='glyphicon glyphicon-globe collapsed-element'></span>
+				            <span class='expanded-element'>Layers</span></a>
+
+		                <ul class='level2'>
+		                    <li> 
+		                    	<a href='#' title='Traffic'>Toner</a></li>
+		                    <li> 
+		                    	<a href='#' title='Conversion rate'>Neighborhoods</a></li>
+		                    <li> 
+		                    	<a href='#' title='Purchases'>Other Stuff</a></li>
+		                    </ul>
+		            	</li>
+		            <li class = "active"> 
+			            <a class='expandable' href='#' title='Dateselector'>
+				            <span class='glyphicon glyphicon-calendar collapsed-element'></span>
+				            <span class='expanded-element'>Date Selector</span></a>
+
+				        <ul class='level2'>
+		                    	<p id="datepairExample">
+								    <input type="text" class="date start" />
+								    <input type="text" class="time start" /> to
+								    <input type="text" class="time end" />
+								    <input type="text" class="date end" />
+								</p>
+		                    </ul>
+				        </li>
+		            <li class = "active"> 
+		            	<a class='expandable' href='#' title='Timeselector'>
+			            <span class='glyphicon glyphicon-time collapsed-element'></span>
+			            <span class='expanded-element'>Time selector</span></a>
+			            <ul class='level2'>
+		                    	<p>
+								  <label for="timerange">Time Range:</label>
+								  <input type="text" id="timerange" readonly style="border:0; color:#6B47B2; font-weight:bold;">
+								</p>
+								<div id="timeslider-range"></div>
+ 
+								
+		                    </ul>
+
+			        	</li>
+		            <li class = "active"> 
+		            	<a class='expandable' href='#' title='Spatialselector'>
+			            <span class='glyphicon glyphicon-th collapsed-element'></span>
+			            <span class='expanded-element'>Spatial Averaging</span></a>
+			            <ul class='level2'>
+			            		<li> 
+			                    	<a href='#' title='Traffic'>Points</a></li>
+			                    <li> 
+			                    	<a href='#' title='Conversion rate'>100m grid</a></li>
+			                    <li> 
+			                    	<a href='#' title='Purchases'>2.5km grid</a></li>
+			                    <li> 
+			                    	<a href='#' title='Purchases'>Neighborhood</a></li>
+			            	</ul>
+			        	</li>
+			        <li class = "active"> 
+		            	<a class='expandable' href='#' title='Co2selector'>
+			            <span class='glyphicon glyphicon-signal collapsed-element'></span>
+			            <span class='expanded-element'>CO2 Range</span></a>
+			            <ul class='level2'>
+			            		<p>
+								  <label for="co2range">CO2 Range:</label>
+								  <input type="text" id="co2range" readonly style="border:0; color:#6B47B2; font-weight:bold;">
+								</p>
+								<div id="co2slider-range"></div>
+
+			            	</ul>
+						</li>
+		        </ul> 
+		    </a>
+    	</nav>
+
+
+	</body>
+</html>

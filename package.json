@@ -1,0 +1,22 @@
+{
+  "name": "city_co2_api",
+  "version": "1.0.0",
+  "description": "city_co2_api",
+
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+
+  "dependencies": {
+    "express": "4.5.1",
+    "body-parser": "1.8.1",
+    "mongojs": "0.14.0",
+    "underscore": "1.6.x"
+  },
+  "devDependencies": {},
+  "bundleDependencies": [],
+
+  "private": true,
+  "main": "server.js"
+}
