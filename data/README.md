@@ -6,6 +6,5 @@ Batch import to mongoDB
 Don't forget then to create once a geospatial index for all collections e.g.
 
 	mongo
-	use fatalatour
-	db.incidents.ensureIndex( {"geometry": "2dsphere"} )
-	db.infos.ensureIndex( {"geometry": "2dsphere"} )
+	use co2
+	db.points.ensureIndex( {"geometry": "2dsphere"} )
