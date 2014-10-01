@@ -97,10 +97,18 @@ app.get('/api/points/:property/range/:low/:high', function(req, res){
 // TODO check whether this really works = is everyting within that day 
 app.get('/api/points/time/:yyyy-:mm-:dd', function(req, res){
 	// TODO console.log(req.query.sensor_id)
-	var date = new Date([req.params.yyyy, req.params.mm, req.params.dd].join('-'));
+	// var date = new Date([req.params.yyyy, req.params.mm, req.params.dd].join('-'));
+	// findAll(
+	// 	points,
+	// 	{$query: {"properties.dateTime_gmt": {$in:[date]}}, $orderby: {"properties.dateTime_gmt":1}},
+	// 	res
+	// );
+	// hardcode the time component
+	var start = new Date([req.params.yyyy, req.params.mm, req.params.dd].join('-') + " " + [00,00,00].join(':')),
+			end = new Date([req.params.yyyy, req.params.mm, req.params.dd].join('-')+ " " + [23,59,59].join(':'));
 	findAll(
 		points,
-		{$query: {"properties.dateTime_gmt": {$in:[date]}}, $orderby: {"properties.dateTime_gmt":1}},
+		{$query:{"properties.dateTime_gmt": { $gte:start, $lt:end}}, $orderby: {"properties.dateTime_gmt":1}},
 		res
 	);
 });
@@ -115,6 +123,7 @@ app.get('/api/points/time/:yyyy1-:mm1-:dd1/:yyyy2-:mm2-:dd2', function(req, res)
 		res
 	);
 });
+
 
 /* -- Helper functions -- */
 function findOne(collection, query, res) {
