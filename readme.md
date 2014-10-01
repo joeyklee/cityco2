@@ -45,7 +45,7 @@ Once the data is imprted make sure to create a geospatial index for the sensors 
 
 	mongo 		# starts the mongodb console
 	use co2 	# co2 is the project folder
-	db.sensors.ensureIndex( {"geometry": "2dsphere"} )	# sensors is the collection
+	db.points.ensureIndex( {"geometry": "2dsphere"} )	# points is the collection
 	
 Install package manager bower
 
