@@ -92,26 +92,57 @@ app.get('/api/points/:property/range/:low/:high', function(req, res){
 	findAll(points, {$query: query, $orderby: orderby}, res);
 });
 
-// TODO check whether this really works = is everyting within that day 
 app.get('/api/points/time/:yyyy-:mm-:dd', function(req, res){
-	// TODO console.log(req.query.sensor_id)
 	var start = new Date([req.params.yyyy, req.params.mm, req.params.dd].join('-') + " " + [00,00,00].join(':'))
 		, end = new Date([req.params.yyyy, req.params.mm, req.params.dd].join('-')+ " " + [23,59,59].join(':'));
-	findAll(
-		points,
-		{$query:{"properties.dateTime_gmt": { $gte:start, $lt:end}}, $orderby: {"properties.dateTime_gmt":1}},
-		res
-	);
 
-	// aggregate(
-	// 	points,
-	// 	[
-	// 		{$match:{"properties.dateTime_gmt":{$gte:start, $lt:end}}},
-	// 		{$project: {"vid":1}},
-	// 		{$group:{_id:"$vid", count: { $sum: 1 }}} 
-	// 	],
-	// 	res
-	// );
+  var map = function() {
+    // TODO mapped time window hardcoded to 60 seconds, parameterize time window
+    var dateTime = new Date(this.properties.dateTime_gmt);
+    dateTime.setSeconds(0);
+    emit(dateTime.getTime(), this);
+  };
+
+  var reduce = function(date, features) {
+    var avgFeature = features[0]
+      , featureCount = features.length
+      , avgProperties = ['Speed_kmh', 'Height_m', 'Co2_ppm']
+      , sums = {};
+
+    // calculate averages
+    for (var i = 0; i < featureCount; i++) {
+      var featureProps = features[i].properties;
+      for (var j = 0; j < avgProperties.length; j++) {
+        var avgProp = avgProperties[j];
+        if (!sums[avgProp]) sums[avgProp] = 0;
+        sums[avgProp] += featureProps[avgProp];
+      }
+    }
+
+    // set average values in feature properties
+    for (var i = 0; i < avgProperties.length; i++) {
+      var avgProp = avgProperties[i];
+      avgFeature.properties[avgProp] = sums[avgProp] / featureCount;
+    }
+    
+    // delete no longer relevant/correct properties from feature
+    delete avgFeature._id;
+    delete avgFeature.id;
+
+    return avgFeature;
+  };
+
+  var options = {
+    query: { "properties.dateTime_gmt": { $gte:start, $lte:end } },
+    out: { inline: 1 }
+  };
+
+  points.mapReduce(map, reduce, options, function(err, results, stats) {
+    if (err) return mongoError(res, err);
+    res.send(_.map(results, function(result) {
+      return result.value;
+    }));
+  });
 });
 
 app.get('/api/points/time/:yyyy1-:mm1-:dd1/:yyyy2-:mm2-:dd2', function(req, res){
